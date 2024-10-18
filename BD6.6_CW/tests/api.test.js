@@ -1,11 +1,11 @@
-const request = require('supertest');
-const { app, getAllEmployees, getEmployeesById } = require('../controllers');
-const http = require('http');
-const { app } = require('../index');
+const request = require("supertest");
+const { getAllEmployees } = require("../controllers");
+const http = require("http");
+const { app } = require("../index");
 
-jest.mock('../article.js', () => ({
-  ...jest.requireActual('../article.js'),
-  getAllArticles: jest.fn(),
+jest.mock("../controllers", () => ({
+  ...jest.requireActual("../controllers"),
+  getAllEmployees: jest.fn(),
 }));
 
 let server;
@@ -19,31 +19,31 @@ afterAll(() => {
   server.close();
 });
 
-describe('Controller Function tests', () => {
+describe("Controller Function tests", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should return all employees', async () => {
+  it("should return all employees", async () => {
     let mockedEmployees = [
       {
         employeeId: 1,
-        name: 'Rahul Sharma',
-        email: 'rahul.sharma@example.com',
+        name: "Rahul Sharma",
+        email: "rahul.sharma@example.com",
         departmentId: 1,
         roleId: 1,
       },
       {
         employeeId: 2,
-        name: 'Priya Singh',
-        email: 'priya.singh@example.com',
+        name: "Priya Singh",
+        email: "priya.singh@example.com",
         departmentId: 2,
         roleId: 2,
       },
       {
         employeeId: 3,
-        name: 'Ankit Verma',
-        email: 'ankit.verma@example.com',
+        name: "Ankit Verma",
+        email: "ankit.verma@example.com",
         departmentId: 1,
         roleId: 3,
       },
@@ -55,30 +55,30 @@ describe('Controller Function tests', () => {
   });
 });
 
-describe('Api Endpoints tests', () => {
-  it('GET API /employees should get all employees', async () => {
-    const response = await request(server).get('/employees');
+describe("Api Endpoints tests", () => {
+  it("GET API /employees should get all employees", async () => {
+    const response = await request(server).get("/employees");
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
       employees: [
         {
           employeeId: 1,
-          name: 'Rahul Sharma',
-          email: 'rahul.sharma@example.com',
+          name: "Rahul Sharma",
+          email: "rahul.sharma@example.com",
           departmentId: 1,
           roleId: 1,
         },
         {
           employeeId: 2,
-          name: 'Priya Singh',
-          email: 'priya.singh@example.com',
+          name: "Priya Singh",
+          email: "priya.singh@example.com",
           departmentId: 2,
           roleId: 2,
         },
         {
           employeeId: 3,
-          name: 'Ankit Verma',
-          email: 'ankit.verma@example.com',
+          name: "Ankit Verma",
+          email: "ankit.verma@example.com",
           departmentId: 1,
           roleId: 3,
         },
@@ -88,14 +88,14 @@ describe('Api Endpoints tests', () => {
     expect(response.body.employees.length).toBe(3);
   });
 
-  it('GET API /employees/details/:id should get an employee by ID', async () => {
-    const response = await request(server).get('/employees/details/1');
+  it("GET API /employees/details/:id should get an employee by ID", async () => {
+    const response = await request(server).get("/employees/details/1");
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
-      employees: {
+      employee: {
         employeeId: 1,
-        name: 'Rahul Sharma',
-        email: 'rahul.sharma@example.com',
+        name: "Rahul Sharma",
+        email: "rahul.sharma@example.com",
         departmentId: 1,
         roleId: 1,
       },
